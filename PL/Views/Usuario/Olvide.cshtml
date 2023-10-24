@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "OlvideContraseña";
+    Layout = null;
+}
+
+<link href="~/css/Login.css" rel="stylesheet">
+
+<html>
+<head>
+
+</head>
+
+<body>
+	<center>
+		<div class="row">
+			<div class="col-md-6 mx-auto p-0">
+				<div class="card">
+					<div class="login-box">
+						<div class="login-snip">
+							<label class="tab">Olvide contraseña</label>
+
+							
+
+							@using (Html.BeginForm("Olvide", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+								{
+								<div class="group">
+									<label for="user" class="label">Email</label>
+									<input id="user" name="email" type="text" class="input" placeholder="Enter your username">
+								</div>
+								<br />
+								<input type="submit" class="button" value="Validar">
+								}
+								
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</center>
+</body>
+</html>
+

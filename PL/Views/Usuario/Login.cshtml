@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+
+<link href="~/css/Login.css" rel="stylesheet">
+
+<html>
+    <head>
+
+    </head>
+
+    <body>
+		<center>
+	<div class="row">
+		<div class="col-md-6 mx-auto p-0">
+			<div class="card">
+				<div class="login-box">
+					<div class="login-snip">
+						<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Entrar</label>
+						<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Registrate</label>
+						<div class="login-space">
+							<div class="login">
+								@using (Html.BeginForm("Login","Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+								{
+								<div class="group">
+									<label for="user" class="label">Email</label>
+									<input id="user" name="email" type="text" class="input" placeholder="Enter your username">
+								</div>
+								<div class="group">
+									<label for="pass" class="label">Password</label>
+									<input id="pass" name="password" type="password" class="input" data-type="password" placeholder="Enter your password">
+								</div>
+								<div class="group">
+									<input id="check" type="checkbox" class="check" checked>
+									<label for="check"><span class="icon"></span> Mantener sesion iniciada</label>
+								</div>
+								<div class="group">
+									<input type="submit" class="button" value="Entrar">
+								</div>
+								<div class="hr"></div>
+								<div class="foot">
+											<a href="@Url.Action("Olvide","Usuario")">Olvidaste tu contraseña?</a>
+								</div>
+								}
+							</div>
+							<div class="sign-up-form">
+								@using (Html.BeginForm("Add","Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+								{
+								<div class="group">
+									<label for="user" class="label">Username</label>
+									<input id="user" name="UserName" type="text" class="input" placeholder="Crea un Nombre de Usuario">
+								</div>
+								<div class="group">
+									<label for="pass" class="label">Nombre</label>
+									<input id="pass" name="Nombre" class="input"  placeholder="Ingrese su Nombre">
+								</div>
+								<div class="group">
+									<label for="pass" class="label">Email Address</label>
+									<input id="pass" name="Email" type="text" class="input" placeholder="Ingresa un correo existente">
+								</div>
+
+								<div class="group">
+									<label for="pass" class="label">Password</label>
+									<input id="pass" name="password" type="password" class="input" data-type="password" placeholder="Ingresa tu contraseña">
+								</div>
+								
+								<div class="group">
+									<input type="submit" class="button" value="Sign Up">
+								</div>
+								<div class="hr"></div>
+								
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</center>
+    </body>
+</html>
+
+							

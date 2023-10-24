@@ -1,0 +1,76 @@
+﻿@model ML.Venta
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @if (Model.Carrito == null || Model.Carrito.Count == 0)
+    {
+        <div class="alert alert-warning" role="alert">
+            Aun no hay nada seleccionado.
+        </div>
+    }
+    else
+    {
+        <div class="btn-group d-flex" role="group" aria-label="Button group with nested dropdown">
+            <a type="button" class="btn btn-dark" href="@Url.Action("CrearPdf","Dulceria")"><i class="fa-solid fa-money-bill"></i> Comprar</a>
+            <a type="button" class="btn btn-dark" href="@Url.Action("DeleteCarro","Dulceria")"><i class="fa-solid fa-broom"></i> Limpiar</a>
+            <a type="button" class="btn btn-outline-danger" href="@Url.Action("Index","Dulceria")"><i class="fa-solid fa-door-open"></i> Regresar</a>
+        </div>
+        <br />
+        <table class="table table-dark table-hover table-bordered table-responsive">
+            <thead>
+                <tr class="table-secondary">
+                    <td class="text-center">Nombre</td>
+                    <td class="text-center">Precio</td>
+                    <td class="text-center">Imagen</td>
+                    <td class="text-center">Agregar</td>
+                    <td class="text-center">cantidad</td>
+                    <td class="text-center">Quitar</td>
+                    <td class="text-center">Eliminar</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ML.Dulceria dulceria in Model.Carrito)
+                {
+                    
+                        <tr>
+                            <td>@dulceria.Nombre</td>
+                            <td class="tdPrecio" >@dulceria.Precio</td>
+                            @if (dulceria.Imagen == null || dulceria.Imagen == "")
+                            {
+                                <td class="text-center"><img width="50" height="50" class="pic-1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2xQpp3ITpKg1VTtg2tVIrtTfE9XuyaZJf2w&usqp=CAU"></td>
+                            }
+                            else
+                            {
+                                <td class="text-center"><img src="data:image/*;base64,@dulceria.Imagen" width="50" height="50" /></td>
+                            }
+                        <td><a class="btn btn-success" href="@Url.Action("Agregar","Dulceria",new{ idDulce = dulceria.IdDulce })" ><i class="fa-solid fa-square-plus"></i></a> </td>
+                        <td class="tdCantidad" >@dulceria.Cantidad</td>
+                        <td><a class="btn btn-warning" href="@Url.Action("Quitar","Dulceria",new{ idDulce = dulceria.IdDulce })" ><i class="fa-solid fa-square-minus"></i></a> </td>
+                        <td><a class="btn btn-danger" href="@Url.Action("QuitarElemento","Dulceria", new{ idDulce = dulceria.IdDulce})"><i class="fa-solid fa-trash-can"></i></a> </td>
+                    </tr>
+                    
+                }
+            </tbody>
+        </table>
+
+        <i class="fa-solid fa-dollar-sign"></i> <label id="lblTotal"></label>
+
+    }
+}
+
+    <script type="text/javascript">
+
+        var precio = document.querySelectorAll(".tdPrecio");
+        var cantidad = document.querySelectorAll(".tdCantidad");
+
+        var index = 0;
+        var total = 0;
+
+        precio.forEach(function(td){
+            total += parseInt(td.textContent) * parseInt(cantidad[index].textContent);
+            index += 1;
+        });
+        document.getElementById("lblTotal").innerHTML = total;
+
+    </script>

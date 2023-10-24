@@ -1,0 +1,55 @@
+﻿@model PL.Models.Root
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    <link href="~/css/Style.css" rel="stylesheet">
+    
+    @if (Model.results != null)
+    {
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="@Url.Action("GetAllPopular","Movie", new {page = ViewBag.page - 1})" tabindex="-1" aria-disabled="true">Anterior</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="@Url.Action("GetAllPopular","Movie", new{page = 1})">1</a></li>
+                <li class="page-item"><a class="page-link" href="@Url.Action("GetAllPopular","Movie", new{page = 2})">2</a></li>
+                <li class="page-item"><a class="page-link" href="@Url.Action("GetAllPopular","Movie", new{page = 3})">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("GetAllPopular","Movie", new{page = ViewBag.page + 1 })">Siguiente</a>
+                </li>
+            </ul>
+        </nav>
+
+
+
+        <div class="row"> 
+        @foreach (PL.Models.Movie movie in Model.results)
+        {
+            
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid">
+                        <div class="product-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src= @movie.poster_path>
+
+                                <img class="pic-2" src= @movie.poster_path>
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">@movie.title</a></h3>
+                            <div class="price">@movie.vote_average</div>
+                            <ul class="product-links">
+                                <li><a href="">Get ticket</a></li>
+                                <li><a href=""><i class="fa-regular fa-eye"></i></a></li>
+                                <li><a href="@Url.Action("Favoritos","Movie", new{ IdMovie = movie.id, favorite = true })"> <i class="fa-regular fa-heart"></i> </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            
+        }
+        </div>
+    }
+
+}

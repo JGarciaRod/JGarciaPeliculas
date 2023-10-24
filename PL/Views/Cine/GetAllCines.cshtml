@@ -1,0 +1,54 @@
+﻿@model ML.Cine
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+
+    @if (Model.Cines != null)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-success" href="@Url.Action("Add","Cine", new {IdCine = 0} )">Agergar nuevo cine</a>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th> Nombre cine </th>
+                            <th> Direccion </th>
+                            <th> Ventas</th>
+                            <th> Zona </th>
+                            <th> Actualizar </th>
+                            <th> Eliminar </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (ML.Cine cine in Model.Cines)
+                        {
+                            <tr>
+                                <td>@cine.Nombre</td>
+                                <td>@cine.Direccion</td>
+                                <td>@cine.Ventas</td>
+                                <td>@cine.Zona.Nombre</td>
+                                <td>
+                                    <a class="btn btn-warning"
+                                       href="@Url.Action("Add","Cine", new { IdCine = cine.IdCine })">Actualizar</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-dark"
+                                       href="@Url.Action("Dell","Cine", new { IdCine = cine.IdCine })" ,
+                                       onclick="return confirm('Seguro que deseas eliminar');">Eliminar</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    }
+
+}

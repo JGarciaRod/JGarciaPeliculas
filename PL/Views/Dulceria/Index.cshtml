@@ -1,0 +1,54 @@
+﻿@model ML.Dulceria
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    <link href="~/css/Dulceria.css" rel="stylesheet">
+
+    if (Model.Dulces != null)
+    {
+        <div class="row">
+
+            @foreach(ML.Dulceria dulceria in Model.Dulces)
+            {
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid">
+                        <div class="product-image">
+                            <a href="#" class="image">
+                                @if(dulceria.Imagen == "" || dulceria.Imagen == null)
+                                {
+                                    <img width="50" height="50" class="pic-1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2xQpp3ITpKg1VTtg2tVIrtTfE9XuyaZJf2w&usqp=CAU">
+                                    <img width="50" height="50" class="pic-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2xQpp3ITpKg1VTtg2tVIrtTfE9XuyaZJf2w&usqp=CAU">
+                                }
+                                else
+                                {
+                                    <img width="50" height="50" class="pic-1" src="data:image/*;base64,@dulceria.Imagen" width="50" height="50" />
+                                    <img width="50" height="50" class="pic-2" src="https://pbs.twimg.com/profile_images/1462138040768471041/6w66_Fc__400x400.jpg" width="50" height="50" />
+                                }
+
+                                
+                            </a>
+
+                            <span class="product-sale-label">sale</span>
+                            <ul class="product-links">
+                                <li>
+                                    <a href="@Url.Action("AddCarrito","Dulceria", new{idDulce = dulceria.IdDulce })" type="button"><i class="fas fa-plus"></i> add to cart</a>
+                                </li>
+                                <li><a href="#"><i class="fas fa-eye"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="product-content">
+                            <a class="product-like-icon" href="#">
+
+                            </a>
+                            <h3 class="title"><a href="#">@dulceria.Nombre</a></h3>
+                            <div class="price"> $ @dulceria.Precio </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+        </div>
+    }
+}

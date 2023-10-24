@@ -1,0 +1,173 @@
+﻿@model ML.Cine
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+
+    <div class="col-md-6 form-control" id="chartContainer" style="height: 400px; width: 40%;"></div>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
+
+
+    <div class="position-absolute top-50 end-0 translate-middle-y" id="map"></div>
+
+    <style>
+        #map {
+            height: 400px;
+            width: 50%;
+        }
+    </style>
+
+    @section Scripts{
+        <script type="text/javascript">
+
+            (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+                key: "AIzaSyCSKBDdPPlfca_zTwyxKiicRQn1qfgRjLw",
+                v: "weekly",
+            });
+
+
+            let position;
+            var geocoder;
+
+            async function LeerDirecciones() {
+                var geocoder;
+
+                const { Map } = await google.maps.importLibrary("maps");
+                const { AdvancedMarkerView } = await google.maps.importLibrary("marker");
+
+
+            @foreach (ML.Cine cine in Model.Cines)
+            {
+                <text>
+                        geocoder = new google.maps.Geocoder();
+
+                    //Lee la posicion
+                    geocoder.geocode({ 'address': '@cine.Direccion' }, function (results, status) {
+                        if (status == 'OK') {
+                            var direccion = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() };
+                            const marker = new google.maps.Marker({
+                                map: map,
+                                position: direccion,
+                                title: "Uluru",
+                            });
+                            const infowindow = new google.maps.InfoWindow({
+                                content: "<p class='fw-bold'>Nombre: @cine.Nombre </p> <br> <p class='fw-normal'>Direccion: @cine.Direccion</p> <br> <p class='fw-light'>Ventas:$ @cine.Ventas</p> <br> <p class='fst-italic'>Zona: @cine.Zona.Nombre</p> ",
+                                ariaLabel: "Uluru",
+                            });
+                            marker.addListener("click", () => {
+                                infowindow.open({
+                                    anchor: marker,
+                                    map,
+                                });
+                            });
+                        }
+                    });
+                </text>
+            }
+                    position = { lat: 19.43262084044966, lng: -99.13264296512365 };
+                initMap(position);
+            }
+
+
+            async function initMap(position) {
+
+                // Request needed libraries.
+
+                const { Map } = await google.maps.importLibrary("maps");
+                const { AdvancedMarkerView } = await google.maps.importLibrary("marker");
+
+                // The map, centered at Uluru
+                map = new Map(document.getElementById("map"), {
+                    zoom: 10,
+                    center: position,
+                    mapId: "DEMO_MAP_ID",
+                });
+            }
+
+            window.onload = function () {
+
+                var total100 = 0;
+            @foreach (ML.Cine cine1 in Model.Cines)
+            {
+                <text>
+                        total100 = total100 + @cine1.Ventas;
+                </text>
+            }
+
+                var t1 = 0.0, t2 = 0, t3 = 0, t4 = 0; //variables de totales
+                var p1 = 0.0, p2 = 0.0, p3 = 0.0, p4= 0.0; //variables de porcentajes
+
+            @foreach (ML.Cine cine2 in Model.Cines)
+            {
+                switch (cine2.Zona.IdZona)
+                {
+                    case 1:
+                        <text>
+                                t1 = t1 + @cine2.Ventas;
+                            p1 = t1 * 100 / total100;
+                        </text>
+                        break;
+
+                    case 2:
+                        <text>
+                                t2 = t2 + @cine2.Ventas;
+                            p2 = t2 * 100 / total100;
+                        </text>
+                        break;
+
+                    case 3:
+                        <text>
+                                t3 = t3 + @cine2.Ventas;
+                            p3 = t3 * 100 / total100;
+                        </text>
+                        break;
+
+                    case 4:
+                        <text>
+                                t4 = t4 + @cine2.Ventas;
+                            p4 = t4 * 100 / total100;
+                        </text>
+                        break;
+
+                }
+            }
+
+                var options = {
+                    title: {
+                        text: "Estadisticas de ventas"
+                    },
+                    subtitles: [{
+                        text: "Ventas hasta el mes de Octubre"
+                    }],
+                    animationEnabled: true,
+                    data: [{
+                        type: "pie",
+                        startAngle: 40,
+                        toolTipContent: "<b>{label}</b>: {y}%",
+                        showInLegend: "true",
+                        legendText: "{label}",
+                        indexLabelFontSize: 16,
+                        indexLabel: "{label} - {y}%",
+                        dataPoints: [
+                            { y: p1.toFixed(2), label: "Norte" },
+                            { y: p2.toFixed(2), label: "Sur" },
+                            { y: p3.toFixed(2), label: "Este" },
+                            { y: p4.toFixed(2), label: "Oeste" }
+                        ]
+                    }]
+                };
+                $("#chartContainer").CanvasJSChart(options);
+
+            }
+
+            LeerDirecciones();
+            initMap(position);
+
+
+        </script>
+    }
+
+}

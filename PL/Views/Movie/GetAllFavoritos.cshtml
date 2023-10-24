@@ -1,0 +1,40 @@
+﻿@model Root
+
+@{
+    <link href="~/css/Style.css" rel="stylesheet">
+
+    @if (Model.results != null)
+    {
+        <div class="row">
+            @foreach (PL.Models.Movie movie in Model.results)
+            {
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid">
+                        <div class="product-image">
+                            <a href="#" class="image">
+                                <img class="pic-1" src=@movie.poster_path>
+
+                                <img class="pic-2" src=@movie.poster_path>
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a href="#">@movie.title</a></h3>
+                            <div class="price">@movie.vote_average</div>
+                            <ul class="product-links">
+                                <li><a href="">Get ticket</a></li>
+                                <li><a href=""><i class="fa-regular fa-eye"></i></a></li>
+                                <li><a href="@Url.Action("Favoritos","Movie", new{ IdMovie = movie.id, favorite = false })">
+                                <i class="fa-solid fa-heart-crack"></i> </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+
+
+}
